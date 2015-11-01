@@ -18,7 +18,7 @@
 {%- set node_count = (node.repeat.get('start', 1) + i)|string %}
 {%- set node_name = node.name|replace(storage.repeat_replace_symbol, node_count.rjust(node.repeat.get('digits', 1), '0')) %}
 
-{{ storage.base_dir }}/nodes/_generated/{{ node_name }}.{{ node.domain }}.yml:
+{{ storage.base_dir }}/nodes/_generated/{{ node.name }}{%- if node.domain != "" %}.{{ node.domain }}{%- endif %}.yml:
   file.managed:
   - source: salt://reclass/files/node.yml
   - user: root
@@ -34,7 +34,7 @@
 
 {%- else %}
 
-{{ storage.base_dir }}/nodes/_generated/{{ node.name }}.{{ node.domain }}.yml:
+{{ storage.base_dir }}/nodes/_generated/{{ node.name }}{%- if node.domain != "" %}.{{ node.domain }}{%- endif %}.yml:
   file.managed:
   - source: salt://reclass/files/node.yml
   - user: root
