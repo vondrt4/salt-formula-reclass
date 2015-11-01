@@ -6,7 +6,7 @@
 
 {%- for node_name, node in storage.node.iteritems() %}
 
-{{ storage.base_dir }}/nodes/_generated/{{ node.name }}.{{ node.domain }}.yml:
+{{ storage.base_dir }}/nodes/_generated/{{ node.name }}{%- if node.domain != "" %}.{{ node.domain }}{%- endif %}.yml:
   file.managed:
   - source: salt://reclass/files/node.yml
   - user: root
@@ -14,8 +14,10 @@
   - template: jinja
   - defaults:
       node_name: "{{ node_name }}"
+{%- if storage.data_source.engine == "git" %}
   - requires:
     - git: {{ storage.data_source.address }}
+{%- endif %}
 
 {%- endfor %}
 
