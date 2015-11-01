@@ -6,7 +6,7 @@
 
 {%- for node_name, node in storage.node.iteritems() %}
 
-{{ storage.base_dir }}/nodes/_generated/{{ node.name }}{%- if node.domain != "" %}.{{ node.domain }}{%- endif %}.yml:
+{{ storage.base_dir }}/nodes/_generated/{{ node.name }}{%- if not (node.domain == "" or node.domain == '""') %}.{{ node.domain }}{%- endif %}.yml:
   file.managed:
   - source: salt://reclass/files/node.yml
   - user: root
